@@ -1,0 +1,63 @@
+{
+	"common": {
+		"name": "energy",
+		"version": "0.0.1",
+		"news": {
+			"0.0.1": {
+				"en": "initial release",
+				"de": "Erstveröffentlichung"
+			}
+		},
+		"title": "Biber Energy",
+		"titleLang": {
+			"en": "Biber Energy",
+			"de": "Biber-Energie"
+		},
+		"desc": {
+			"en": "energy",
+			"de": "Energie"
+		},
+		"authors": [
+			"Biber <r.volz@gmx.de>"
+		],
+		"keywords": [
+			"ioBroker",
+			"template",
+			"Smart Home",
+			"home automation"
+		],
+		"license": "MIT",
+		"platform": "Javascript/Node.js",
+		"main": "main.js",
+		"icon": "energy.png",
+		"enabled": true,
+		"extIcon": "https://raw.githubusercontent.com/McBiber/ioBroker.energy/main/admin/energy.png",
+		"readme": "https://github.com/McBiber/ioBroker.energy/blob/main/README.md",
+		"loglevel": "info",
+		"mode": "daemon",
+		"type": "energy",
+		"compact": true,
+		"connectionType": "cloud",
+		"dataSource": "poll",
+		"materialize": true,
+		"dependencies": [
+			{
+				"js-controller": ">=2.0.0"
+			}
+		]
+	},
+	"native": {
+        "optionModbusPV": false,
+        "optionSMA": false,
+        "optionHistory": false,
+        "optionReplyBackup": false,
+        "optionUpdateSourceObjects": false,
+        "optionCreateDataStructure": false,
+        "optionCreateAliasStructure": false,
+        "optionEnableEnergie": false,
+        "optionEnergyCosts": 0,
+        "optionEnergySalary": 0
+	},
+	"objects": [],
+	"instanceObjects": []
+}
