@@ -734,6 +734,7 @@ class Energie {
      * @param {Object} in_State 
      */
     async calcMaxErtrag(in_State) {
+        this.setErtrag(in_State.val);
         // @ts-ignore
         this.adapter.getForeignState("Home.Data.Photovoltaik.SMA_ERTRAG_MAX", (err, state) => {
             if (in_State.val > state.val)
@@ -746,6 +747,7 @@ class Energie {
      * @param {Object} in_State 
      */
     async calcMaxNetzEinspeisung(in_State) {
+        this.setNetzeinspeisung(in_State.val);
         // @ts-ignore
         this.adapter.getForeignState("Home.Data.Photovoltaik.SMA_NETZEINSPEISUNG_MAX", (err, state) => {
             if (in_State.val > state.val)

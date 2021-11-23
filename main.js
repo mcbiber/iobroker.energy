@@ -158,12 +158,11 @@ class Energy extends utils.Adapter {
 
 				if (id == "Home.Alias.Photovoltaik.SMA_NETZEINSPEISUNG") {
 					this.pEnergy.calcMaxNetzEinspeisung(state);
-					this.pEnergy.setNetzeinspeisung(state.val);
 				}
 			}
 			else if (id == "Home.Alias.Photovoltaik.SMA_ERTRAG_AKTUELL") {
 				this.pEnergy.calcQuotes(state);
-				this.pEnergy.setErtrag(state.val);
+				this.pEnergy.calcMaxErtrag(state);
 			}
 			else
 				this.update.updateTarget(id, state);
