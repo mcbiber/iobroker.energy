@@ -4,6 +4,10 @@
 
 class Helper {
 
+    /**
+     * gets the current time stamp
+     * @returns timeStamp Time stamp as string
+     */
     static timeStamp() {
         // Create a date object with the current time
         const now = new Date();
