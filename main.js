@@ -60,8 +60,8 @@ class Energy extends utils.Adapter {
 			name: "energy",
 		});
 
-		// this.pathPrefix = "/opt/iobroker/iobroker-data/files/";
-		this.pathPrefix = "/home/rvolz/Development/iobroker/Files/VMTestBroker/";
+		this.pathPrefix = "/opt/iobroker/iobroker-data/files/";
+		// this.pathPrefix = "/home/rvolz/Development/iobroker/Files/VMTestBroker/";
 
 		this.on("ready", this.onReady.bind(this));
 		this.on("stateChange", this.onStateChange.bind(this));
