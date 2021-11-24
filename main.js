@@ -215,7 +215,7 @@ class Energy extends utils.Adapter {
 			this.setForeignState("energy.admin.FOREIGN_ADAPTER_RUNNING", true);
 			// if (this.config.optionCrateDataStructure)
 			await this.structure.createStructure();
-			this.InitStates("modbus.0.holdingRegisters.*");
+			this.InitStates("modbus.0.inputRegisters.*");
 			this.InitStates("sma-em.0.3002849260.*");
 			this.InitStates("Home.Alias.Photovoltaik.*");
 		}
