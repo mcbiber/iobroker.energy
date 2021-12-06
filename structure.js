@@ -1,7 +1,4 @@
 /* eslint-disable indent */
-const fs = require("fs");
-const xmlParser = require("xml2json");
-const ForeignAdapter = require("./adapter.js");
 // eslint-disable-next-line no-unused-vars
 const util = require("util");
 
@@ -12,46 +9,29 @@ class Structure {
     */
 
     /**
-    * @property {Object} dataFolderXML
-    */
-
-    /**
     * @property {Object} aliasFolderXML
     */
 
     constructor(adapter) {
         this.adapter = adapter;
-
-        this.foreignAdapter = new ForeignAdapter(adapter);
-        this.dataFolderXML = null;
-        this.aliasFolderXML = null;
-    }
-
-    /**
-     * reads folder structure for data and aliases from xml file
-     */
-    async getFolderStructure() {
-        let file = fs.readFileSync(this.adapter.pathPrefix + "config/DataFolder.xml");
-        this.dataFolderXML = JSON.parse(xmlParser.toJson(file, { reversible: true }));
-        file = fs.readFileSync(this.adapter.pathPrefix + "config/AliasFolder.xml");
-        this.aliasFolderXML = JSON.parse(xmlParser.toJson(file, { reversible: true }));
     }
 
     async createStructure() {
-        await this.getFolderStructure();
-        await this.createFolder();
-        await this.createAliases();
-        await this.createDataStates();
+        await this.adapter.p_BiberFunctions.globalStructure.getFolderStructure();
+        await this.adapter.p_BiberFunctions.globalStructure.createFolder("ENERGY");
+        await this.adapter.p_BiberFunctions.globalStructure.getAliasesXML();
+        await this.createAliases(this.adapter.p_BiberFunctions.globalStructure.aliasStatesXML);
+        await this.adapter.p_BiberFunctions.globalStructure.getDataXML();
+        await this.createDataStates(this.adapter.p_BiberFunctions.globalStructure.dataStatesXML);
     }
 
     /**
      * creates data states in data folder
      */
-    async createDataStates() {
-        const file = fs.readFileSync(this.adapter.pathPrefix + "config/DataStates.xml");
-        const xml = JSON.parse(xmlParser.toJson(file, { reversible: true }));
-        if (this.dataFolderXML["DATA"] && this.dataFolderXML["DATA"]["ENERGY"]) {
-            const folderArray = this.dataFolderXML["DATA"]["ENERGY"]["item"];
+    async createDataStates(xml) {
+        if (this.adapter.p_BiberFunctions.globalStructure.dataFolderXML["DATA"]
+            && this.adapter.p_BiberFunctions.globalStructure.dataFolderXML["DATA"]["ENERGY"]) {
+            const folderArray = this.adapter.p_BiberFunctions.globalStructure.dataFolderXML["DATA"]["ENERGY"]["item"];
             if (xml["DATA"] && xml["DATA"]["PV"]) {
                 const statesArray = xml["DATA"]["PV"]["item"];
                 for (const folderItem of folderArray) {
@@ -129,26 +109,9 @@ class Structure {
     }
 
     /**
-     * creates folder by config folder xml
-     */
-    async createFolder() {
-        const dataFolderArray = this.dataFolderXML["DATA"]["ENERGY"]["item"];
-        for (const folderItem of dataFolderArray) {
-            await this.adapter.setForeignObjectNotExists(Object.keys(folderItem)[0], JSON.parse(Object.values(folderItem)[0]));
-        }
-        const aliasFolderArray = this.aliasFolderXML["ALIAS"]["ENERGY"]["item"];
-        for (const folderItem of aliasFolderArray) {
-            await this.adapter.setForeignObjectNotExists(Object.keys(folderItem)[0], JSON.parse(Object.values(folderItem)[0]));
-        }
-    }
-
-    /**
      * craetes aliases for foreign device states
      */
-    async createAliases() {
-        const file = fs.readFileSync(this.adapter.pathPrefix + "config/AliasStates.xml");
-        const xml = JSON.parse(xmlParser.toJson(file, { reversible: true }));
-
+    async createAliases(xml) {
         await this.createAdapterAliases(xml, "Modbus_PV");
         await this.createAdapterAliases(xml, "SMA");
     }
@@ -159,10 +122,9 @@ class Structure {
      * @param {string} adapterName
      */
     async createAdapterAliases(xml, adapterName) {
-        const file = fs.readFileSync(this.adapter.pathPrefix + "config/AliasSourcePairs.xml");
-        const pairedStatesXML = JSON.parse(xmlParser.toJson(file, { reversible: true }));
+        const pairedStatesXML = await this.adapter.p_BiberFunctions.globalStructure.getPairedXML();
         let device = ""; let aliasPath = ""; let pairedStates = null;
-        const adapterStatesArray = await this.foreignAdapter.getChildStates(adapterName);
+        const adapterStatesArray = await this.adapter.p_BiberFunctions.foreignAdapter.getChildStates(adapterName);
         switch (adapterName) {
             case "Modbus_PV":
                 device = "PV";
@@ -205,8 +167,9 @@ class Structure {
                         const obj = JSON.parse(statesArray[index][Object.keys(statesArray[index])[0]]);
                         // update of new alias state object with alias state path as name
                         obj["common"]["name"] = newAliasPath;
-                        // store the id of source state for alias state in new alias state object
-                        obj["common"]["alias"]["id"] = Object.values(pairedStates[key])[0];
+                        if (obj.common.alias)
+                            // store the id of source state for alias state in new alias state object
+                            obj["common"]["alias"]["id"] = Object.values(pairedStates[key])[0];
                         // get the object of source state for new alias state
                         const foreignObj = await this.adapter.getForeignObjectAsync(Object.values(pairedStates[key])[0]);
                         if (foreignObj) {
@@ -223,7 +186,7 @@ class Structure {
                             // store id and value in object array
                             const state = await this.adapter.getForeignStateAsync(Object.values(pairedStates[key])[0]);
                             if (state && !sourceValueObjectArray[Object.values(pairedStates[key])[0]]) {
-                                const newState = await this.adapter.update.updateAliasLogic(newAliasPath, state);
+                                const newState = await this.adapter.p_BiberFunctions.update.updateAliasLogic(newAliasPath, state);
                                 sourceValueObjectArray[newAliasPath] = newState;
                             }
                         }

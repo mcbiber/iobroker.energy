@@ -10,17 +10,11 @@
 const utils = require("@iobroker/adapter-core");
 const Structure = require("./structure.js");
 const util = require("util");
-const Update = require("./update.js");
-const Helper = require("./helper.js");
+const BiberFunctions = require("biber-functions");
 const fs = require("fs");
 const Energie = require("./energie.js");
 
 class Energy extends utils.Adapter {
-
-	/**
-	 * class update for updating source and target state pairs
-	 * @property {Update} update 
-	 */
 
 	/**
 	 * class energie as interface with functions to consumption calculation
@@ -60,8 +54,8 @@ class Energy extends utils.Adapter {
 			name: "energy",
 		});
 
-		this.pathPrefix = "/opt/iobroker/iobroker-data/files/";
-		// this.pathPrefix = "/home/rvolz/Development/iobroker/Files/VMTestBroker/";
+		// this.pathPrefix = "/opt/iobroker/iobroker-data/files/";
+		this.pathPrefix = "/home/rvolz/Development/iobroker/Files/VMTestBroker/";
 
 		this.on("ready", this.onReady.bind(this));
 		this.on("stateChange", this.onStateChange.bind(this));
@@ -70,7 +64,7 @@ class Energy extends utils.Adapter {
 		this.on("unload", this.onUnload.bind(this));
 
 		this.structure = new Structure(this);
-		this.update = new Update(this);
+		this.p_BiberFunctions = new BiberFunctions(this);
 
 		this.pEnergy = new Energie(this);
 		this.pCountGesamtEnergy = new Energie(this);
@@ -136,8 +130,8 @@ class Energy extends utils.Adapter {
 			// clearTimeout(timeout2);
 			// ...
 			// clearInterval(interval1);
-
-			this.AdapterIsUp();
+			this.log.info("Unload adapter");
+			this.save();
 
 			callback();
 		} catch (e) {
@@ -165,7 +159,7 @@ class Energy extends utils.Adapter {
 				this.pEnergy.calcMaxErtrag(state);
 			}
 			else
-				this.update.updateTarget(id, state);
+				this.p_BiberFunctions.update.updateTarget(id, state);
 
 			// The state was changed
 			// this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
@@ -264,7 +258,6 @@ class Energy extends utils.Adapter {
 		const obj = await this.getForeignObjectAsync("system.adapter.energy.0");
 		if (obj && obj.common.enabled != false) {
 			this.setForeignState("energy.admin.ADAPTER_UP", true);
-			this.save();
 		}
 		else {
 			this.setForeignState("entergy.admin.ADAPTER_UP", false);
@@ -275,23 +268,26 @@ class Energy extends utils.Adapter {
 	 * saves the data states into backup file
 	 */
 	async save() {
-		const content = new Map();
-		let states = await this.getForeignStatesAsync("Home.Data.Energie.*");
-		this.log.info("Save");
-		for (const key in states) {
-			content.set(key, states[key].val);
+		const obj = await this.getForeignObjectAsync("system.adapter.energy.0");
+		if (obj && obj.common.enabled != false) {
+			const content = new Map();
+			let states = await this.getForeignStatesAsync("Home.Data.Energie.*");
+			this.log.info("Save");
+			for (const key in states) {
+				content.set(key, states[key].val);
+			}
+			states = await this.getForeignStatesAsync("Home.Data.Photovoltaik.*");
+			for (const key in states) {
+				content.set(key, states[key].val);
+			}
+			this.log.debug(util.inspect(content));
+			if (content.size > 0)
+				try {
+					const fileName = this.pathPrefix + "/backup/EnergyBackup_" + this.p_BiberFunctions.helper.timeStamp() + ".txt";
+					this.log.info("Save: " + fileName);
+					fs.writeFileSync(fileName, util.inspect(content));
+				} catch (err) { this.log.error(err); }
 		}
-		states = await this.getForeignStatesAsync("Home.Data.Photovoltaik.*");
-		for (const key in states) {
-			content.set(key, states[key].val);
-		}
-		this.log.debug(util.inspect(content));
-		if (content.size > 0)
-			try {
-				const fileName = this.pathPrefix + "/backup/EnergyBackup_" + Helper.timeStamp() + ".txt";
-				this.log.info("Save: " + fileName);
-				fs.writeFileSync(fileName, util.inspect(content));
-			} catch (err) { this.log.error(err); }
 	}
 
 	/**
@@ -304,7 +300,7 @@ class Energy extends utils.Adapter {
 			const filePath = this.pathPrefix + "backup/EnergyBackup.txt";
 			this.log.debug("Restore");
 			try {
-				const map = Helper.convertStringMaptoMap(fs.readFileSync(filePath).toString());
+				const map = this.p_BiberFunctions.helper.convertStringMaptoMap(fs.readFileSync(filePath).toString());
 				this.log.debug(util.inspect(map));
 				map.forEach((value, key) => {
 					if (parseFloat(value) > 0)

@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@iobroker/adapter-core": "^2.5.1",
-    "node-schedule": "^2.0.0",
+    "node-schedule": "^2.1.0",
     "xml2json": "^0.12.0"
   },
   "devDependencies": {
@@ -55,10 +55,8 @@
     "LICENSE",
     "main.js",
     "structure.js",
-    "helper.js",
     "energie.js",
-    "adapter.js",
-    "update.js"
+    "adapter.js"
   ],
   "scripts": {
     "test:js": "mocha --config test/mocharc.custom.json \"{!(node_modules|test)/**/*.test.js,*.test.js,test/**/test!(PackageFiles|Startup).js}\"",

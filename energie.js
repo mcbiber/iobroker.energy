@@ -1,7 +1,6 @@
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable indent */
 
-const Helper = require("./helper.js");
 const schedule = require("node-schedule");
 
 let Ertrag_aktuell = 0;
@@ -131,7 +130,9 @@ class Energie {
      */
     async setErtragVorjahr() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Yield", Helper.getStartTimeYear(1), Helper.getEndTimeYear(1));
+            const result = await this.getHistoryData("Energie_Total_Yield",
+                this.adapter.p_BiberFunctions.helper.getStartTimeYear(1),
+                this.adapter.p_BiberFunctions.helper.getEndTimeYear(1));
             if (result >= 0) {
                 this.adapter.setForeignState("Home.Data.Energie.Year.PRE_ERTRAG", { val: result });
                 this.adapter.setForeignState("Home.Data.Energie.Year.ERTRAG", 0);
@@ -145,7 +146,9 @@ class Energie {
      */
     async setEigenverbrauchVorjahr() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Ownconsumption", Helper.getStartTimeYear(1), Helper.getEndTimeYear(1));
+            const result = await this.getHistoryData("Energie_Total_Ownconsumption",
+                this.adapter.p_BiberFunctions.helper.getStartTimeYear(1),
+                this.adapter.p_BiberFunctions.helper.getEndTimeYear(1));
             if (result >= 0) {
                 this.adapter.setForeignState("Home.Data.Energie.Year.PRE_EIGENVERBRAUCH", { val: result });
                 this.adapter.setForeignState("Home.Data.Energie.Year.EIGENVERBRAUCH", 0);
@@ -159,7 +162,9 @@ class Energie {
      */
     async setEinspeisungVorjahr() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Feed", Helper.getStartTimeYear(1), Helper.getEndTimeYear(1));
+            const result = await this.getHistoryData("Energie_Total_Feed",
+                this.adapter.p_BiberFunctions.helper.getStartTimeYear(1),
+                this.adapter.p_BiberFunctions.helper.getEndTimeYear(1));
             if (result >= 0) {
                 this.adapter.setForeignState("Home.Data.Energie.Year.PRE_EINSPEISUNG", { val: result });
                 this.adapter.setForeignState("Home.Data.Energie.Year.PRE_EINSPEISUNG_VERGÜTUNG", { val: result * this.getVerguetung() });
@@ -175,7 +180,9 @@ class Energie {
      */
     async setVerbrauchVorjahr() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Consumption", Helper.getStartTimeYear(1), Helper.getEndTimeYear(1));
+            const result = await this.getHistoryData("Energie_Total_Consumption",
+                this.adapter.p_BiberFunctions.helper.getStartTimeYear(1),
+                this.adapter.p_BiberFunctions.helper.getEndTimeYear(1));
             if (result >= 0) {
                 this.adapter.setForeignState("Home.Data.Energie.Year.PRE_VERBRAUCH", { val: result });
                 this.adapter.setForeignState("Home.Data.Energie.Year.VERBRAUCH", 0);
@@ -189,7 +196,9 @@ class Energie {
      */
     async setBezugVorjahr() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Receive", Helper.getStartTimeYear(1), Helper.getEndTimeYear(1));
+            const result = await this.getHistoryData("Energie_Total_Receive",
+                this.adapter.p_BiberFunctions.helper.getStartTimeYear(1),
+                this.adapter.p_BiberFunctions.helper.getEndTimeYear(1));
             if (result >= 0) {
                 this.adapter.setForeignState("Home.Data.Energie.Year.PRE_BEZUG", { val: result });
                 this.adapter.setForeignState("Home.Data.Energie.Year.PRE_BEZUGSKOSTEN", { val: result });
@@ -205,7 +214,9 @@ class Energie {
      */
     async setErtragVormonat() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Yield", Helper.getStartTimeMonth(1), Helper.getEndTimeMonth(1));
+            const result = await this.getHistoryData("Energie_Total_Yield",
+                this.adapter.p_BiberFunctions.helper.getStartTimeMonth(1),
+                this.adapter.p_BiberFunctions.helper.getEndTimeMonth(1));
             if (result >= 0) {
                 this.adapter.setForeignState("Home.Data.Energie.Month.PRE_ERTRAG", { val: result });
                 this.adapter.setForeignState("Home.Data.Energie.Month.ERTRAG", 0);
@@ -219,7 +230,9 @@ class Energie {
      */
     async setEigenverbrauchVormonat() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Ownconsumption", Helper.getStartTimeMonth(1), Helper.getEndTimeMonth(1));
+            const result = await this.getHistoryData("Energie_Total_Ownconsumption",
+                this.adapter.p_BiberFunctions.helper.getStartTimeMonth(1),
+                this.adapter.p_BiberFunctions.helper.getEndTimeMonth(1));
             if (result >= 0) {
                 this.adapter.setForeignState("Home.Data.Energie.Month.PRE_EIGENVERBRAUCH", { val: result });
                 this.adapter.setForeignState("Home.Data.Energie.Month.EIGENVERBRAUCH", 0);
@@ -233,7 +246,9 @@ class Energie {
      */
     async setEinspeisungVormonat() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Feed", Helper.getStartTimeMonth(1), Helper.getEndTimeMonth(1));
+            const result = await this.getHistoryData("Energie_Total_Feed",
+                this.adapter.p_BiberFunctions.helper.getStartTimeMonth(1),
+                this.adapter.p_BiberFunctions.helper.getEndTimeMonth(1));
             if (result >= 0) {
                 this.adapter.setForeignState("Home.Data.Energie.Month.PRE_EINSPEISUNG", { val: result });
                 this.adapter.setForeignState("Home.Data.Energie.Month.PRE_EINSPEISUNG_VERGÜTUNG", { val: result * this.getVerguetung() });
@@ -249,7 +264,9 @@ class Energie {
      */
     async setVerbrauchVormonat() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Consumption", Helper.getStartTimeMonth(1), Helper.getEndTimeMonth(1));
+            const result = await this.getHistoryData("Energie_Total_Consumption",
+                this.adapter.p_BiberFunctions.helper.getStartTimeMonth(1),
+                this.adapter.p_BiberFunctions.helper.getEndTimeMonth(1));
             if (result >= 0) {
                 this.adapter.setForeignState("Home.Data.Energie.Month.PRE_VERBRAUCH", { val: result });
                 this.adapter.setForeignState("Home.Data.Energie.Month.VERBRAUCH", 0);
@@ -263,7 +280,9 @@ class Energie {
      */
     async setBezugVormonat() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Receive", Helper.getStartTimeMonth(1), Helper.getEndTimeMonth(1));
+            const result = await this.getHistoryData("Energie_Total_Receive",
+                this.adapter.p_BiberFunctions.helper.getStartTimeMonth(1),
+                this.adapter.p_BiberFunctions.helper.getEndTimeMonth(1));
             if (result >= 0) {
                 this.adapter.setForeignState("Home.Data.Energie.Month.PRE_BEZUG", { val: result });
                 this.adapter.setForeignState("Home.Data.Energie.Month.PRE_BEZUGSKOSTEN", { val: result * this.getKosten() });
@@ -278,7 +297,9 @@ class Energie {
      */
     async setEinspeisungVorwoche() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Feed", Helper.getStartTimeWeek(1), Helper.getEndTimeWeek(1));
+            const result = await this.getHistoryData("Energie_Total_Feed",
+                this.adapter.p_BiberFunctions.helper.getStartTimeWeek(1),
+                this.adapter.p_BiberFunctions.helper.getEndTimeWeek(1));
             if (result >= 0) {
                 this.adapter.setForeignState("Home.Data.Energie.Week.PRE_EINSPEISUNG", { val: result });
                 this.adapter.setForeignState("Home.Data.Energie.Week.PRE_EINSPEISUNG_VERGÜTUNG", { val: result * this.getVerguetung() });
@@ -294,7 +315,9 @@ class Energie {
      */
     async setErtragVorwoche() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Yield", Helper.getStartTimeWeek(1), Helper.getEndTimeWeek(1));
+            const result = await this.getHistoryData("Energie_Total_Yield",
+                this.adapter.p_BiberFunctions.helper.getStartTimeWeek(1),
+                this.adapter.p_BiberFunctions.helper.getEndTimeWeek(1));
             if (result >= 0) {
                 this.adapter.setForeignState("Home.Data.Energie.Week.PRE_ERTRAG", { val: result });
                 this.adapter.setForeignState("Home.Data.Energie.Week.ERTRAG", 0);
@@ -308,7 +331,9 @@ class Energie {
      */
     async setEigenverbrauchVorwoche() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Ownconsumption", Helper.getStartTimeWeek(1), Helper.getEndTimeWeek(1));
+            const result = await this.getHistoryData("Energie_Total_Ownconsumption",
+                this.adapter.p_BiberFunctions.helper.getStartTimeWeek(1),
+                this.adapter.p_BiberFunctions.helper.getEndTimeWeek(1));
             if (result >= 0) {
                 this.adapter.setForeignState("Home.Data.Energie.Week.PRE_EIGENVERBRAUCH", { val: result });
                 this.adapter.setForeignState("Home.Data.Energie.Week.EIGENVERBRAUCH", 0);
@@ -322,7 +347,9 @@ class Energie {
      */
     async setBezugVorwoche() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Receive", Helper.getStartTimeWeek(1), Helper.getEndTimeWeek(1));
+            const result = await this.getHistoryData("Energie_Total_Receive",
+                this.adapter.p_BiberFunctions.helper.getStartTimeWeek(1),
+                this.adapter.p_BiberFunctions.helper.getEndTimeWeek(1));
             if (result >= 0) {
                 this.adapter.setForeignState("Home.Data.Energie.Week.PRE_BEZUG", { val: result });
                 this.adapter.setForeignState("Home.Data.Energie.Week.PRE_BEZUGSKOSTEN", { val: result * this.getKosten() });
@@ -338,7 +365,9 @@ class Energie {
      */
     async setVerbrauchVorwoche() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Consumption", Helper.getStartTimeWeek(1), Helper.getEndTimeWeek(1));
+            const result = await this.getHistoryData("Energie_Total_Consumption",
+                this.adapter.p_BiberFunctions.helper.getStartTimeWeek(1),
+                this.adapter.p_BiberFunctions.helper.getEndTimeWeek(1));
             if (result >= 0) {
                 this.adapter.setForeignState("Home.Data.Energie.Week.PRE_VERBRAUCH", { val: result });
                 this.adapter.setForeignState("Home.Data.Energie.Week.VERBRAUCH", 0);
@@ -352,7 +381,8 @@ class Energie {
      */
     async setEigenverbrauchTag() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Ownconsumption", Helper.getStartTimeToDay(), new Date().getTime());
+            const result = await this.getHistoryData("Energie_Total_Ownconsumption",
+                this.adapter.p_BiberFunctions.helper.getStartTimeToDay(), new Date().getTime());
             if (result >= 0)
                 this.adapter.setForeignState("Home.Data.Energie.Day.EIGENVERBRAUCH", { val: result });
             // eslint-disable-next-line no-empty
@@ -364,7 +394,8 @@ class Energie {
      */
     async setEinspeisungTag() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Feed", Helper.getStartTimeToDay(), new Date().getTime());
+            const result = await this.getHistoryData("Energie_Total_Feed",
+                this.adapter.p_BiberFunctions.helper.getStartTimeToDay(), new Date().getTime());
             if (result >= 0) {
                 this.adapter.setForeignState("Home.Data.Energie.Day.EINSPEISUNG", { val: result });
                 this.adapter.setForeignState("Home.Data.Energie.Day.EINSPEISUNG_VERGÜTUNG", { val: result * this.getVerguetung() });
@@ -378,7 +409,8 @@ class Energie {
      */
     async setBezugTag() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Receive", Helper.getStartTimeToDay(), new Date().getTime());
+            const result = await this.getHistoryData("Energie_Total_Receive",
+                this.adapter.p_BiberFunctions.helper.getStartTimeToDay(), new Date().getTime());
             if (result >= 0) {
                 this.adapter.setForeignState("Home.Data.Energie.Day.BEZUG", { val: result });
                 this.adapter.setForeignState("Home.Data.Energie.Day.BEZUGSKOSTEN", { val: result * this.getKosten() });
@@ -392,7 +424,8 @@ class Energie {
      */
     async setVerbrauchTag() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Consumption", Helper.getStartTimeToDay(), new Date().getTime());
+            const result = await this.getHistoryData("Energie_Total_Consumption",
+                this.adapter.p_BiberFunctions.helper.getStartTimeToDay(), new Date().getTime());
             if (result >= 0)
                 // @ts-ignore
                 this.adapter.setForeignState("Home.Data.Energie.Day.VERBRAUCH", { val: result });
@@ -405,7 +438,8 @@ class Energie {
      */
     async setErtragJahr() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Yield", Helper.getStartTimeThisYear(), new Date().getTime());
+            const result = await this.getHistoryData("Energie_Total_Yield",
+                this.adapter.p_BiberFunctions.helper.getStartTimeThisYear(), new Date().getTime());
             if (result >= 0)
                 this.adapter.setForeignState("Home.Data.Energie.Year.ERTRAG", { val: result });
             // eslint-disable-next-line no-empty
@@ -417,7 +451,8 @@ class Energie {
      */
     async setEigenverbrauchJahr() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Ownconsumption", Helper.getStartTimeThisYear(), new Date().getTime());
+            const result = await this.getHistoryData("Energie_Total_Ownconsumption",
+                this.adapter.p_BiberFunctions.helper.getStartTimeThisYear(), new Date().getTime());
             if (result >= 0)
                 this.adapter.setForeignState("Home.Data.Energie.Year.EIGENVERBRAUCH", { val: result });
             // eslint-disable-next-line no-empty
@@ -429,7 +464,8 @@ class Energie {
      */
     async setEinspeisungJahr() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Feed", Helper.getStartTimeThisYear(), new Date().getTime());
+            const result = await this.getHistoryData("Energie_Total_Feed",
+                this.adapter.p_BiberFunctions.helper.getStartTimeThisYear(), new Date().getTime());
             if (result >= 0) {
                 this.adapter.setForeignState("Home.Data.Energie.Year.EINSPEISUNG", { val: result });
                 this.adapter.setForeignState("Home.Data.Energie.Year.EINSPEISUNG_VERGÜTUNG", { val: result * this.getVerguetung() });
@@ -443,7 +479,8 @@ class Energie {
      */
     async setVerbrauchJahr() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Consumption", Helper.getStartTimeThisYear(), new Date().getTime());
+            const result = await this.getHistoryData("Energie_Total_Consumption",
+                this.adapter.p_BiberFunctions.helper.getStartTimeThisYear(), new Date().getTime());
             if (result >= 0)
                 this.adapter.setForeignState("Home.Data.Energie.Year.VERBRAUCH", { val: result });
             // eslint-disable-next-line no-empty
@@ -455,7 +492,8 @@ class Energie {
      */
     async setBezugJahr() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Receive", Helper.getStartTimeThisYear(), new Date().getTime());
+            const result = await this.getHistoryData("Energie_Total_Receive",
+                this.adapter.p_BiberFunctions.helper.getStartTimeThisYear(), new Date().getTime());
             if (result >= 0) {
                 this.adapter.setForeignState("Home.Data.Energie.Year.BEZUG", { val: result });
                 this.adapter.setForeignState("Home.Data.Energie.Year.BEZUGSKOSTEN", { val: result * this.getKosten() });
@@ -469,7 +507,8 @@ class Energie {
      */
     async setErtragMonat() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Yield", Helper.getStartTimeThisMonth(), new Date().getTime());
+            const result = await this.getHistoryData("Energie_Total_Yield",
+                this.adapter.p_BiberFunctions.helper.getStartTimeThisMonth(), new Date().getTime());
             if (result >= 0)
                 this.adapter.setForeignState("Home.Data.Energie.Month.ERTRAG", { val: result });
             // eslint-disable-next-line no-empty
@@ -481,7 +520,8 @@ class Energie {
      */
     async setEigenverbrauchMonat() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Ownconsumption", Helper.getStartTimeThisMonth(), new Date().getTime());
+            const result = await this.getHistoryData("Energie_Total_Ownconsumption",
+                this.adapter.p_BiberFunctions.helper.getStartTimeThisMonth(), new Date().getTime());
             if (result >= 0)
                 this.adapter.setForeignState("Home.Data.Energie.Month.EIGENVERBRAUCH", { val: result });
             // eslint-disable-next-line no-empty
@@ -493,7 +533,8 @@ class Energie {
      */
     async setEinspeisungMonat() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Feed", Helper.getStartTimeThisMonth(), new Date().getTime());
+            const result = await this.getHistoryData("Energie_Total_Feed",
+                this.adapter.p_BiberFunctions.helper.getStartTimeThisMonth(), new Date().getTime());
             if (result >= 0) {
                 this.adapter.setForeignState("Home.Data.Energie.Month.EINSPEISUNG", { val: result });
                 this.adapter.setForeignState("Home.Data.Energie.Month.EINSPEISUNG_VERGÜTUNG", { val: result * this.getVerguetung() });
@@ -507,7 +548,8 @@ class Energie {
      */
     async setVerbrauchMonat() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Consumption", Helper.getStartTimeThisMonth(), new Date().getTime());
+            const result = await this.getHistoryData("Energie_Total_Consumption",
+                this.adapter.p_BiberFunctions.helper.getStartTimeThisMonth(), new Date().getTime());
             if (result >= 0)
                 this.adapter.setForeignState("Home.Data.Energie.Month.VERBRAUCH", { val: result });
             // eslint-disable-next-line no-empty
@@ -519,7 +561,8 @@ class Energie {
      */
     async setBezugMonat() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Receive", Helper.getStartTimeThisMonth(), new Date().getTime());
+            const result = await this.getHistoryData("Energie_Total_Receive",
+                this.adapter.p_BiberFunctions.helper.getStartTimeThisMonth(), new Date().getTime());
             if (result >= 0) {
                 this.adapter.setForeignState("Home.Data.Energie.Month.BEZUG", { val: result });
                 this.adapter.setForeignState("Home.Data.Energie.Month.BEZUGSKOSTEN", { val: result * this.getKosten() });
@@ -533,7 +576,8 @@ class Energie {
      */
     async setErtragWoche() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Yield", Helper.getStartTimeThisWeek(), new Date().getTime());
+            const result = await this.getHistoryData("Energie_Total_Yield",
+                this.adapter.p_BiberFunctions.helper.getStartTimeThisWeek(), new Date().getTime());
             if (result >= 0)
                 this.adapter.setForeignState("Home.Data.Energie.Week.ERTRAG", { val: result });
             // eslint-disable-next-line no-empty
@@ -545,7 +589,8 @@ class Energie {
      */
     async setEigenverbrauchWoche() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Ownconsumption", Helper.getStartTimeThisWeek(), new Date().getTime());
+            const result = await this.getHistoryData("Energie_Total_Ownconsumption",
+                this.adapter.p_BiberFunctions.helper.getStartTimeThisWeek(), new Date().getTime());
             if (result >= 0)
                 this.adapter.setForeignState("Home.Data.Energie.Week.EIGENVERBRAUCH", { val: result });
             // eslint-disable-next-line no-empty
@@ -557,7 +602,8 @@ class Energie {
      */
     async setEinspeisungWoche() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Feed", Helper.getStartTimeThisWeek(), new Date().getTime());
+            const result = await this.getHistoryData("Energie_Total_Feed",
+                this.adapter.p_BiberFunctions.helper.getStartTimeThisWeek(), new Date().getTime());
             if (result >= 0) {
                 this.adapter.setForeignState("Home.Data.Energie.Week.EINSPEISUNG", { val: result });
                 this.adapter.setForeignState("Home.Data.Energie.Week.EINSPEISUNG_VERGÜTUNG", { val: result * this.getVerguetung() });
@@ -571,7 +617,8 @@ class Energie {
      */
     async setBezugWoche() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Receive", Helper.getStartTimeThisWeek(), new Date().getTime());
+            const result = await this.getHistoryData("Energie_Total_Receive",
+                this.adapter.p_BiberFunctions.helper.getStartTimeThisWeek(), new Date().getTime());
             if (result >= 0) {
                 this.adapter.setForeignState("Home.Data.Energie.Week.BEZUG", { val: result });
                 this.adapter.setForeignState("Home.Data.Energie.Week.BEZUGSKOSTEN", { val: result * this.getKosten() });
@@ -585,7 +632,8 @@ class Energie {
      */
     async setVerbrauchWoche() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Consumption", Helper.getStartTimeThisWeek(), new Date().getTime());
+            const result = await this.getHistoryData("Energie_Total_Consumption",
+                this.adapter.p_BiberFunctions.helper.getStartTimeThisWeek(), new Date().getTime());
             if (result >= 0)
                 this.adapter.setForeignState("Home.Data.Energie.Week.VERBRAUCH", { val: result });
             // eslint-disable-next-line no-empty
@@ -597,7 +645,9 @@ class Energie {
      */
     async setEigenverbrauchVortag() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Ownconsumption", Helper.getStartTimeDay(1), Helper.getEndTimeDay(1));
+            const result = await this.getHistoryData("Energie_Total_Ownconsumption",
+                this.adapter.p_BiberFunctions.helper.getStartTimeDay(1),
+                this.adapter.p_BiberFunctions.helper.getEndTimeDay(1));
             if (result >= 0) {
                 this.adapter.setForeignState("Home.Data.Energie.Day.PRE_EIGENVERBRAUCH", { val: result });
                 this.adapter.setForeignState("Home.Data.Energie.Day.EIGENVERBRAUCH", 0);
@@ -611,7 +661,9 @@ class Energie {
      */
     async setErtragVortag() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Yield", Helper.getStartTimeDay(1), Helper.getEndTimeDay(1));
+            const result = await this.getHistoryData("Energie_Total_Yield",
+                this.adapter.p_BiberFunctions.helper.getStartTimeDay(1),
+                this.adapter.p_BiberFunctions.helper.getEndTimeDay(1));
             if (result >= 0)
                 this.adapter.setForeignState("Home.Data.Energie.Day.PRE_ERTRAG", result);
             this.adapter.getForeignState("Home.Data.Photovoltaik.SMA_ERTRAG_MAX", (err, state) => {
@@ -627,7 +679,9 @@ class Energie {
      */
     async setEinspeisungVortag() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Feed", Helper.getStartTimeDay(1), Helper.getEndTimeDay(1));
+            const result = await this.getHistoryData("Energie_Total_Feed",
+                this.adapter.p_BiberFunctions.helper.getStartTimeDay(1),
+                this.adapter.p_BiberFunctions.helper.getEndTimeDay(1));
             if (result >= 0) {
                 this.adapter.setForeignState("Home.Data.Energie.Day.PRE_EINSPEISUNG", { val: result });
                 this.adapter.setForeignState("Home.Data.Energie.Day.PRE_EINSPEISUNG_VERGÜTUNG", { val: result * this.getVerguetung() });
@@ -647,7 +701,9 @@ class Energie {
      */
     async setBezugVortag() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Receive", Helper.getStartTimeDay(1), Helper.getEndTimeDay(1));
+            const result = await this.getHistoryData("Energie_Total_Receive",
+                this.adapter.p_BiberFunctions.helper.getStartTimeDay(1),
+                this.adapter.p_BiberFunctions.helper.getEndTimeDay(1));
             if (result >= 0) {
                 this.adapter.setForeignState("Home.Data.Energie.Day.PRE_BEZUG", { val: result });
                 this.adapter.setForeignState("Home.Data.Energie.Day.PRE_BEZUGSKOSTEN", { val: result * this.getKosten() });
@@ -663,7 +719,9 @@ class Energie {
      */
     async setVerbrauchVortag() {
         try {
-            const result = await this.getHistoryData("Energie_Total_Consumption", Helper.getStartTimeDay(1), Helper.getEndTimeDay(1));
+            const result = await this.getHistoryData("Energie_Total_Consumption",
+                this.adapter.p_BiberFunctions.helper.getStartTimeDay(1),
+                this.adapter.p_BiberFunctions.helper.getEndTimeDay(1));
             if (result >= 0)
                 this.adapter.setForeignState("Home.Data.Energie.Day.PRE_VERBRAUCH", { val: result });
             this.adapter.setForeignState("Home.Data.Energie.Day.VERBRAUCH", 0);
