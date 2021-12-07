@@ -8,7 +8,7 @@
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
 const utils = require("@iobroker/adapter-core");
-const Structure = require("./structure.js");
+// const Structure = require("./structure.js");
 const util = require("util");
 const BiberFunctions = require("biber-functions");
 const fs = require("fs");
@@ -63,7 +63,7 @@ class Energy extends utils.Adapter {
 		// this.on("message", this.onMessage.bind(this));
 		this.on("unload", this.onUnload.bind(this));
 
-		this.structure = new Structure(this);
+		// this.structure = new Structure(this);
 		this.p_BiberFunctions = new BiberFunctions(this);
 
 		this.pEnergy = new Energie(this);
@@ -207,8 +207,10 @@ class Energy extends utils.Adapter {
 		}
 		else {
 			this.setForeignState("energy.admin.FOREIGN_ADAPTER_RUNNING", true);
-			// if (this.config.optionCrateDataStructure)
-			await this.structure.createStructure();
+			await this.p_BiberFunctions.globalStructure.getFolderStructure();
+			await this.p_BiberFunctions.globalStructure.createFolder("ENERGY");
+			await this.p_BiberFunctions.globalStructure.createAliases("ENERGY");
+			await this.p_BiberFunctions.globalStructure.createDataStates("ENERGY");
 			this.InitStates("modbus.0.inputRegisters.*");
 			this.InitStates("sma-em.0.3002849260.*");
 			this.InitStates("Home.Alias.Photovoltaik.*");
