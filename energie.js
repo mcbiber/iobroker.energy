@@ -818,17 +818,23 @@ class Energie {
      * @param {Object} in_State 
      */
     async calcQuotes(in_State) {
-        // @ts-ignore
-        this.adapter.getForeignState("Home.Data.Photovoltaik.SMA_EIGENVERBRAUCH", (err, state) => { this.setEigenverbrauch(state.val); });
-        const result = Math.round(this.getEigenverbrauch() / in_State.val * 100);
-        this.adapter.setForeignState("Home.Data.Photovoltaik.SMA_EIGENVERBRAUCH_QUOTE", { val: in_State.val == 0 ? 0 : result > 100 ? 100 : result < 0 ? 0 : result });
+        if (in_State)
+            if (in_State.val <= 0) {
+                this.adapter.setForeignState("Home.Data.Photovoltaik.SMA_AUTARKIE_QUOTE", 0);
+            }
+            else {
+                // @ts-ignore
+                this.adapter.getForeignState("Home.Data.Photovoltaik.SMA_EIGENVERBRAUCH", (err, state) => { this.setEigenverbrauch(state.val); });
+                const result = Math.round(this.getEigenverbrauch() / in_State.val * 100);
+                this.adapter.setForeignState("Home.Data.Photovoltaik.SMA_AUTARKIE_QUOTE", 0); { val: in_State.val == 0 ? 0 : result > 100 ? 100 : result < 0 ? 0 : result });
 
-        if (this.getEigenverbrauch() == 0)
-            this.adapter.setForeignState("Home.Data.Photovoltaik.SMA_AUTARKIE_QUOTE", 0);
-        else {
-            const result = Math.round((this.getEigenverbrauch() / this.getGesamtverbrauch()) * 100);
-            this.adapter.setForeignState("Home.Data.Photovoltaik.SMA_AUTARKIE_QUOTE", { val: result < 0 ? 0 : result });
-        }
+                if (this.getEigenverbrauch() == 0)
+                    this.adapter.setForeignState("Home.Data.Photovoltaik.SMA_AUTARKIE_QUOTE", 0);
+                else {
+                    const result = Math.round((this.getEigenverbrauch() / this.getGesamtverbrauch()) * 100);
+                    this.adapter.setForeignState("Home.Data.Photovoltaik.SMA_AUTARKIE_QUOTE", { val: result < 0 ? 0 : result });
+                }
+            }
     }
 
     async getHistoryData(historyFile, startTime, endTime) {
