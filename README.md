@@ -21,7 +21,7 @@ Describe your project here
 	### **WORK IN PROGRESS**
 -->
 
-### **WORK IN PROGRESS**
+### 0.0.2 (2021-12-08)
 * (Biber) used biber functions
 
 ## License
