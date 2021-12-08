@@ -826,7 +826,7 @@ class Energie {
                 // @ts-ignore
                 this.adapter.getForeignState("Home.Data.Photovoltaik.SMA_EIGENVERBRAUCH", (err, state) => { this.setEigenverbrauch(state.val); });
                 const result = Math.round(this.getEigenverbrauch() / in_State.val * 100);
-                this.adapter.setForeignState("Home.Data.Photovoltaik.SMA_AUTARKIE_QUOTE", 0); { val: in_State.val == 0 ? 0 : result > 100 ? 100 : result < 0 ? 0 : result });
+                this.adapter.setForeignState("Home.Data.Photovoltaik.SMA_AUTARKIE_QUOTE", { val: in_State.val == 0 ? 0 : result > 100 ? 100 : result < 0 ? 0 : result });
 
                 if (this.getEigenverbrauch() == 0)
                     this.adapter.setForeignState("Home.Data.Photovoltaik.SMA_AUTARKIE_QUOTE", 0);
