@@ -3,8 +3,12 @@
 		"name": "energy",
 		"version": "0.0.1",
 		"news": {
+			"0.0.2": {
+				"en": "Integrated node biber functions",
+				"de": "Node Biber Funktionen integriert"
+			},
 			"0.0.1": {
-				"en": "initial release",
+				"en": "Initial release",
 				"de": "Erstveröffentlichung"
 			}
 		},
