@@ -54,9 +54,8 @@
     "io-package.json",
     "LICENSE",
     "main.js",
-    "structure.js",
     "energie.js",
-    "adapter.js"
+    "psm.js"
   ],
   "scripts": {
     "test:js": "mocha --config test/mocharc.custom.json \"{!(node_modules|test)/**/*.test.js,*.test.js,test/**/test!(PackageFiles|Startup).js}\"",
